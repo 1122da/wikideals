@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {TextInput} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/AntDesign';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import CategoriesCard from '../../Components/Categories/CategoriesCard';
 import images from '../../Assets/images';
 import CategoriesItem from '../../Components/Categories/CategoriesItem';
@@ -53,26 +53,34 @@ const Home = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{backgroundColor: '#ffffff'}}>
-        <View
-          style={{
-            alignItems: 'center',
-            marginTop: 10,
-          }}>
-          <Image source={require('../../Assets/images/logo.jpg')} />
-        </View>
-        <View style={{margin: 10}}>
-          <TouchableOpacity onPress={() => setShowModal(!showModal)}>
-            <TextInput
-              style={{height: 35, borderRadius: 5}}
-              placeholder="Che offerta cerchi?"
-              mode="outlined"
-              outlineColor="rgba(248, 248, 248, 1)"
-              activeOutlineColor="rgba(248, 248, 248, 1)"
-              right={<TextInput.Icon name="search-web" />}
-            />
-          </TouchableOpacity>
+        <View style={{backgroundColor: showModal ? '#21E7CA' : '#ffffff'}}>
+          <View
+            style={{
+              alignItems: 'center',
+              marginTop: 10,
+            }}>
+            <Image source={showModal ? images.logoWhite : images.logo} />
+          </View>
+          <View style={{margin: 10}}>
+            <TouchableOpacity onPress={() => setShowModal(!showModal)}>
+              <TextInput
+                style={{height: 35, borderRadius: 5}}
+                placeholder="Che offerta cerchi?"
+                mode="outlined"
+                outlineColor="rgba(248, 248, 248, 1)"
+                activeOutlineColor="rgba(248, 248, 248, 1)"
+                right={
+                  showModal ? (
+                    <TextInput.Icon name="close" />
+                  ) : (
+                    <TextInput.Icon name="search-web" />
+                  )
+                }
+              />
+            </TouchableOpacity>
+          </View>
           {showModal && (
-            <View style={{}}>
+            <View style={{backgroundColor: '#ffffff'}}>
               <Text
                 style={{
                   marginTop: 10,
@@ -124,93 +132,100 @@ const Home = ({navigation}) => {
             </View>
           )}
         </View>
-
-        <View style={{margin: 20}}>
-          <Text
-            style={{
-              fontSize: 10,
-              lineHeight: 14,
-              color: '#515151',
-              fontWeight: '600',
-            }}>
-            Esplora per categoria
-          </Text>
-          <View>
-            <FlatList
-              data={data}
-              showsHorizontalScrollIndicator={false}
-              horizontal={true}
-              keyExtractor={item => item.name}
-              renderItem={({item}) => (
-                <CategoriesCard title={item.name} image={item.img} />
-              )}
-            />
+        {showModal || (
+          <View style={{backgroundColor: '#ffffff'}}>
+            <View style={{margin: 20}}>
+              <Text
+                style={{
+                  fontSize: 10,
+                  lineHeight: 14,
+                  color: '#515151',
+                  fontWeight: '600',
+                }}>
+                Esplora per categoria
+              </Text>
+              <View>
+                <FlatList
+                  data={data}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}
+                  keyExtractor={item => item.name}
+                  renderItem={({item}) => (
+                    <CategoriesCard title={item.name} image={item.img} />
+                  )}
+                />
+              </View>
+            </View>
+            <View
+              style={{
+                marginHorizontal: 20,
+                marginBottom: 20,
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Text>Filtra Offerte</Text>
+              <TouchableOpacity
+                style={{
+                  marginLeft: 10,
+                  width: 80,
+                  height: 20,
+                  backgroundColor: '#575CFF',
+                  borderRadius: 6,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text style={{fontSize: 8, lineHeight: 14, color: '#ffffff'}}>
+                  TUTTE
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  marginLeft: 10,
+                  width: 80,
+                  height: 20,
+                  borderWidth: 1,
+                  borderColor: '#575CFF',
+                  // backgroundColor: '#575CFF',
+                  borderRadius: 6,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text style={{fontSize: 8, lineHeight: 14, color: '#575CFF'}}>
+                  Solo Codici
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  marginLeft: 10,
+                  width: 80,
+                  height: 20,
+                  borderWidth: 1,
+                  borderColor: '#575CFF',
+                  // backgroundColor: '#575CFF',
+                  borderRadius: 6,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                onPress={() => navigation.navigate('categoryView')}>
+                <Text style={{fontSize: 8, lineHeight: 14, color: '#575CFF'}}>
+                  OFFERTE LAMPO
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <View
-          style={{
-            marginHorizontal: 20,
-            marginBottom: 20,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <Text>Filtra Offerte</Text>
-          <TouchableOpacity
-            style={{
-              marginLeft: 10,
-              width: 80,
-              height: 20,
-              backgroundColor: '#575CFF',
-              borderRadius: 6,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={{fontSize: 8, lineHeight: 14, color: '#ffffff'}}>
-              TUTTE
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              marginLeft: 10,
-              width: 80,
-              height: 20,
-              borderWidth: 1,
-              borderColor: '#575CFF',
-              // backgroundColor: '#575CFF',
-              borderRadius: 6,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={{fontSize: 8, lineHeight: 14, color: '#575CFF'}}>
-              Solo Codici
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              marginLeft: 10,
-              width: 80,
-              height: 20,
-              borderWidth: 1,
-              borderColor: '#575CFF',
-              // backgroundColor: '#575CFF',
-              borderRadius: 6,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            onPress={() => navigation.navigate('categoryView')}>
-            <Text style={{fontSize: 8, lineHeight: 14, color: '#575CFF'}}>
-              OFFERTE LAMPO
-            </Text>
-          </TouchableOpacity>
-        </View>
+        )}
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <CategoriesItem />
-        <CategoriesItem />
-        <CategoriesItem />
-        <CategoriesItem />
-        <CategoriesItem />
-      </ScrollView>
+      {showModal || (
+        <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <CategoriesItem />
+            <CategoriesItem />
+            <CategoriesItem />
+            <CategoriesItem />
+            <CategoriesItem />
+          </ScrollView>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
